@@ -1,0 +1,24 @@
+{
+  "name": "weedfs",
+  "version": "0.0.0",
+  "description": "A simple HTTP REST client for the weed-fs file database",
+  "main": "lib/weedfs.js",
+  "scripts": {
+    "prepublish": "./node_modules/.bin/coffee -o lib -cb src/weedfs.coffee"
+  },
+  "keywords": [
+    "weedfs",
+    "client",
+    "http",
+    "rest"
+  ],
+  "author": "Johny Jose <johny@playlyfe.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "1.7.1"
+  },
+  "dependencies": {
+    "lodash": "2.4.1",
+    "request": "2.37.0"
+  }
+}
