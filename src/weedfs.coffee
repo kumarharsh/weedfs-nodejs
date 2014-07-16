@@ -20,7 +20,10 @@ class WeedFS
       else if /application\/json/.test(response.headers['content-type'])
         callback(null, JSON.parse(body))
       else
-        callback(new Error("Unexpected content-type '#{response.headers['content-type']}' in response"))
+        try
+          callback(null, JSON.parse(body))
+        catch err
+          callback(new Error("Unexpected content-type '#{response.headers['content-type']}' in response"))
 
   _assign: (options, callback) ->
     @client("#{@address}/dir/assign?#{qs.stringify(options)}", @_parse(callback))
