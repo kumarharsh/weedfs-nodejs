@@ -1,6 +1,6 @@
 {
   "name": "weedfs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple HTTP REST client for the weed-fs file database",
   "main": "lib/weedfs.js",
   "scripts": {
