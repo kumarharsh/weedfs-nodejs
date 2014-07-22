@@ -59,7 +59,6 @@ class WeedFS
     return
 
   read: (file_id, stream, callback) ->
-
     if _.isFunction(stream)
       callback = stream
       stream = null
@@ -88,6 +87,7 @@ class WeedFS
   write: (files, callback) ->
     if not _.isArray(files)
       files = [files]
+
     @_assign({ count: files.length }, (err, file_info) =>
       if (err) then return callback(err)
 
@@ -116,6 +116,36 @@ class WeedFS
     )
     return
 
+  remove: (file_id, callback) ->
+    @find(file_id, (locations) =>
+      if locations.length > 0
+
+        is_error = false
+        results = []
+
+        for location in locations
+          @client.del(location, (err, response, body) =>
+            if response.statusCode is 404
+              is_error = true
+              results.push new Error("file '#{file_id}' not found")
+            else
+              @_parse((err, result) ->
+                if err
+                  results.push(err)
+                else
+                  results.push(result)
+              )(err, response, body)
+
+            if results.length is locations.length
+              if is_error
+                callback(new Error("An error occured while removing files"), results)
+              else
+                callback(null, results)
+          )
+      else
+        callback(new Error("file '#{file_id}' not found"))
+    )
+    return
 
 module.exports = WeedFS
 
