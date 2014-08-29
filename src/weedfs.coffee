@@ -54,7 +54,7 @@ class WeedFS
       for location in result.locations
         locations.push "#{@config.scheme}://#{location.publicUrl}/#{file_id}"
 
-      callback(locations)
+      callback(null, locations)
     ))
     return
 
@@ -63,7 +63,9 @@ class WeedFS
       callback = stream
       stream = null
 
-    @find(file_id, (locations) =>
+    @find(file_id, (err, locations) =>
+      if err
+        return callback(new Error("file '" + file_id + "' not found"))
       if locations.length > 0
         if stream?
           @client(locations[0]).pipe(stream)
