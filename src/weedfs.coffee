@@ -119,7 +119,7 @@ class WeedFS
     return
 
   remove: (file_id, callback) ->
-    @find(file_id, (locations) =>
+    @find(file_id, (error, locations) =>
       if locations.length > 0
 
         is_error = false
